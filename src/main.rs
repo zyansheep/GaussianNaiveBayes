@@ -27,20 +27,19 @@ impl Class {
 	}
 	fn generate_distribution(&mut self) -> Result<(), statrs::StatsError> {
 		self.normal_distribution = Some({
-			println!("points: {:?}", self.points);
+			//println!("points: {:?}", self.points);
 			let x_data = self.points.iter().map(|point| point.x).collect::<Vec<f64>>();
 			let y_data = self.points.iter().map(|point| point.y).collect::<Vec<f64>>();
-			println!("x_data, y_data: {:?}, {:?}", x_data, y_data);
+			//println!("x_data, y_data: {:?}, {:?}", x_data, y_data);
 			(
 				Normal::new(x_data.clone().mean(), x_data.std_dev())?,
 				Normal::new(y_data.clone().mean(), y_data.std_dev())?,
 			)
 		});
-		println!("Distribution for class {}: {:?}", self.id, self.normal_distribution);
+		//println!("Distribution for class {}: {:?}", self.id, self.normal_distribution);
 		Ok(())
 	}
-	fn get_likelyhood(&self, initial: f64, point: &Point) -> Option<f64> {
-		use std::f64; 
+	fn get_likelyhood(&self, initial: f64, point: &Point) -> Option<f64> { 
 		if let Some(distribution) = self.normal_distribution {
 			return Some(
 				initial.ln()
@@ -92,6 +91,7 @@ fn main() {
 	let file = BufReader::new(File::open(&input_path).expect("Pleaes pass valid path as first argument"));
 	let data = ClassData::parse_from_reader(file).expect("Failed to parse file format, make sure it is a space-separated list");
 	
+	println!("Class Data: {:#?}", data);
 	let test = Point{x: 6.98645, y: -2.936};
 	
 	println!("Testing data: {:?}", test);
